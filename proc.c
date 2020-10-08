@@ -7,6 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -88,7 +89,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-  for (int i=0; i<23; i++) {
+  for (int i=0; i<=total_sys_calls; i++) {
     p->sysCallCount[i] = 0;
   }
 
