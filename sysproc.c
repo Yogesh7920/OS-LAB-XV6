@@ -7,7 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
-int systemCount[NELEM(syscalls)+1] = {0};
+int systemCount[22+1] = {0};
 
 int
 sys_fork(void)
