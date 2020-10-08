@@ -104,7 +104,7 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getcount(int);
-extern int systemCount[NELEM(syscalls)+1];
+extern int *systemCount;
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -138,7 +138,7 @@ syscall(void)
   struct proc *curproc = myproc();
 
   num = curproc->tf->eax;
-  systemCount[num] += 1;
+  systemCount[num] ++;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     curproc->tf->eax = syscalls[num]();
   } else {
