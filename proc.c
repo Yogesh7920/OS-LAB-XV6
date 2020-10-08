@@ -7,8 +7,6 @@
 #include "proc.h"
 #include "spinlock.h"
 
-#define total_system_calls_num 22
-
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -21,8 +19,6 @@ extern void forkret(void);
 extern void trapret(void);
 
 static void wakeup1(void *chan);
-
-int systemCount[total_system_calls_num+1] = {0};
 
 void
 pinit(void)
@@ -92,6 +88,9 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  for (int i=0; i<23; i++) {
+    p->sysCallCount[i] = 0;
+  }
 
   release(&ptable.lock);
 
@@ -124,9 +123,6 @@ found:
 void
 userinit(void)
 {
-    for (int i=0; i<total_system_calls_num+1; i++) {
-        systemCount[i] = 0;
-    }
   struct proc *p;
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
@@ -543,5 +539,6 @@ procdump(void)
 int
 getcount(int num)
 {
-    return systemCount[num];
+    struct proc *curproc = myproc();
+    return curproc->sysCallCount[num];
 }

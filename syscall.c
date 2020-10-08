@@ -104,7 +104,6 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getcount(void);
-extern int systemCount[];
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -138,8 +137,8 @@ syscall(void)
   struct proc *curproc = myproc();
 
   num = curproc->tf->eax;
-  systemCount[num] ++;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
+    curproc->sysCallCount[num]++;
     curproc->tf->eax = syscalls[num]();
   } else {
     cprintf("%d %s: unknown sys call %d\n",
