@@ -103,7 +103,7 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
-extern int sys_getcount(int);
+extern int sys_getcount(void);
 extern int *systemCount;
 
 static int (*syscalls[])(void) = {
