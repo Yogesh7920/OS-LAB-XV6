@@ -124,7 +124,7 @@ found:
 void
 userinit(void)
 {
-    systemCount[total_system_calls_num+1] = {0};
+    int systemCount[total_system_calls_num+1] = {0};
   struct proc *p;
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
