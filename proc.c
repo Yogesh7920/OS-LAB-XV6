@@ -7,6 +7,8 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define total_system_calls_num 22
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -20,7 +22,7 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
-int systemCount[22+1] = {0};
+int systemCount[total_system_calls_num+1] = {0};
 
 void
 pinit(void)
@@ -122,6 +124,7 @@ found:
 void
 userinit(void)
 {
+    systemCount[total_system_calls_num+1] = {0};
   struct proc *p;
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
