@@ -7,8 +7,6 @@
 #include "proc.h"
 #include "spinlock.h"
 
-#define total_system_calls 22
-
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];

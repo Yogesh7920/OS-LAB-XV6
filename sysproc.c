@@ -7,7 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 
-int systemCount[total_system_calls+1] = {0};
+int systemCount[NELEM(syscalls)+1] = {0};
 
 int
 sys_fork(void)
@@ -96,5 +96,5 @@ sys_uptime(void)
 int
 sys_getcount(int num)
 {
-    return countCalls[num];
+    return systemCount[num];
 }

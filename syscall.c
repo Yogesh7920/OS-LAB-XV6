@@ -104,6 +104,7 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getcount(int);
+extern int systemCount[NELEM(syscalls)+1];
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
