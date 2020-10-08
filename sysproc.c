@@ -7,8 +7,6 @@
 #include "mmu.h"
 #include "proc.h"
 
-int systemCount[22+1] = {0};
-
 int
 sys_fork(void)
 {
@@ -92,9 +90,11 @@ sys_uptime(void)
   return xticks;
 }
 
-
 int
 sys_getcount(void)
 {
-    return systemCount[1];
+    int num;
+    if(argint(0, &num) < 0)
+        return -1;
+    return getcount(num);
 }

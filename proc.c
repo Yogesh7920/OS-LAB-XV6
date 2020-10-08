@@ -20,6 +20,8 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 
+int systemCount[22+1] = {0};
+
 void
 pinit(void)
 {
@@ -531,4 +533,10 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+int
+getcount(int num)
+{
+    return systemCount[num];
 }
