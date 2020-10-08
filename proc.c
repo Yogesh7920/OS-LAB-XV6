@@ -7,6 +7,8 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define total_system_calls 22
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -15,6 +17,7 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
+int systemCount[total_system_calls+1] = {0};
 extern void forkret(void);
 extern void trapret(void);
 

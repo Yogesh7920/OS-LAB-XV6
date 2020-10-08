@@ -23,3 +23,10 @@ mkfs
 
 # Local History for Visual Studio Code
 .history/
+.idea/.gitignore
+.idea/customTargets.xml
+.idea/deployment.xml
+.idea/makefile.xml
+.idea/misc.xml
+.idea/os.iml
+.idea/vcs.xml
