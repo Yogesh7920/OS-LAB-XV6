@@ -17,7 +17,6 @@ struct {
 static struct proc *initproc;
 
 int nextpid = 1;
-int systemCount[total_system_calls+1] = {0};
 extern void forkret(void);
 extern void trapret(void);
 

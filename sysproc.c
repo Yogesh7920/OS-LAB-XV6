@@ -7,6 +7,8 @@
 #include "mmu.h"
 #include "proc.h"
 
+int systemCount[total_system_calls+1] = {0};
+
 int
 sys_fork(void)
 {
