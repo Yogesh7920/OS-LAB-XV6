@@ -7,16 +7,13 @@ int main(int argc, char const *argv[])
 {
     printf(1, "initial sleep count %d\n", getcount(SYS_sleep));
     printf(1, "Sleep init \n");
-    sleep(10);
+    sleep(1);
     printf(1, "Sleep end\n");
     printf(1, "sleep count %d\n", getcount(SYS_sleep));
     printf(1, "getting pid\n");
     getpid();
     printf(1, "get_pid count %d\n", getcount(SYS_getpid));
-    printf(1, "uptime call\n");
-    uptime();
-    printf(1, "uptime count %d\n", getcount(SYS_uptime));
-    return 0;
+    exit();
 }
 
 
