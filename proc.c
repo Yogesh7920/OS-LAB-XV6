@@ -532,3 +532,9 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+v2paddr(int vaddrs)
+{
+  return vaddrs;
+}

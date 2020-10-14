@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="WSL (ea2d399a-814c-402a-828f-cc59c801a3bb)" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc, *.o" compareModeInSync="TIMESTAMP">
+    <serverData>
+      <paths name="WSL (ea2d399a-814c-402a-828f-cc59c801a3bb)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/os" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

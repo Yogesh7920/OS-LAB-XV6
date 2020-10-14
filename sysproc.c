@@ -89,3 +89,12 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_v2paddr(void)
+{
+  int addr;
+  if(argint(0, &addr) < 0)
+    return -1;
+  return v2paddr(addr);
+}
