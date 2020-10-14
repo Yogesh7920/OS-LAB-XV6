@@ -1,4 +1,5 @@
 *~
+_*
 *.o
 *.d
 *.asm
@@ -9,6 +10,7 @@ bootblock
 entryother
 initcode
 initcode.out
+kernel
 kernelmemfs
 mkfs
 .gdbinit
@@ -23,3 +25,4 @@ mkfs
 
 # Local History for Visual Studio Code
 .history/
+.idea/
