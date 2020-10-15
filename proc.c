@@ -560,6 +560,8 @@ int
 v2paddr(int vaddrs)
 {
   struct proc *curproc = myproc();
-  unsigned int x = *walkpgdir(curproc->pgdir, &vaddrs, 0);
-  return x;
+  pte_t pte = *walkpgdir(curproc->pgdir, &vaddrs, 0);
+  if (pte == 0) return -1;
+  pte = (PTE_ADDR(pte)<<12) | (PTE_FLAGS(vaddrs));
+  return pte;
 }
