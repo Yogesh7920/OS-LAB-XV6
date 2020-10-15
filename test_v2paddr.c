@@ -5,6 +5,8 @@
 int
 main(int argc, char *argv[])
 {
-  printf(1, "The physical address is %d\n", v2paddr(2));
+  printf(1, "The physical address of 0x2 is %d\n", v2paddr(0x2));
+  printf(1, "The physical address of 0x33 is %d\n", v2paddr(0x3));
+  printf(1, "The physical address of 0x90 is %d\n", v2paddr(0x90));
   exit();
 }
