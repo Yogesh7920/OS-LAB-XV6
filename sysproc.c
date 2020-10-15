@@ -90,7 +90,7 @@ sys_uptime(void)
   return xticks;
 }
 
-int
+uint
 sys_v2paddr(void)
 {
   int addr;

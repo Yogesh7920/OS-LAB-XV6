@@ -120,7 +120,7 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
-int             v2paddr(int);
+uint            v2paddr(uint);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

@@ -556,12 +556,13 @@ walkpgdir(pde_t *pgdir, const void *va, int alloc)
 }
 
 
-int
-v2paddr(int vaddrs)
+uint
+v2paddr(uint vaddrs)
 {
   struct proc *curproc = myproc();
   pte_t pte = *walkpgdir(curproc->pgdir, &vaddrs, 0);
   if (pte == 0) return -1;
-  pte = (PTE_ADDR(pte)<<12) | (PTE_FLAGS(vaddrs));
+  pte = PTE_ADDR(pte) | PTE_FLAGS(vaddrs);
+  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddrs, pte);
   return pte;
 }
