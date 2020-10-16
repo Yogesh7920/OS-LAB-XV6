@@ -5,9 +5,9 @@
 int
 main(int argc, char *argv[])
 {
-  v2paddr(0x02);
-  v2paddr(0x024212);
-  v2paddr(0x032132142);
+  v2paddr(0x2FCC);
+  v2paddr(0x1);
+  v2paddr(0x80000001);
   v2paddr(0x0242423);
   v2paddr(0x0657322);
   exit();

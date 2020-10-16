@@ -555,13 +555,19 @@ walkpgdir(pde_t *pgdir, const void *va, int alloc)
   return &pgtab[PTX(va)];
 }
 
-
 uint
 v2paddr(uint vaddrs)
 {
+  if (vaddrs >= KERNBASE) {
+    cprintf("xv6: invalid virtual address - %x\n", vaddrs);
+    return -1;
+  }
   struct proc *curproc = myproc();
   pte_t pte = *walkpgdir(curproc->pgdir, &vaddrs, 0);
-  if (pte == 0) return -1;
+  if (pte == 0) {
+    cprintf("xv6: invalid virtual address - 0x%x\n", vaddrs);
+    return -1;
+  }
   pte = PTE_ADDR(pte) | PTE_FLAGS(vaddrs);
   cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddrs, pte);
   return pte;
