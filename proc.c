@@ -568,7 +568,7 @@ v2paddr(uint vaddrs)
     cprintf("xv6: invalid virtual address - 0x%x\n", vaddrs);
     return -1;
   }
-  pte = PTE_ADDR(pte) | PTE_FLAGS(vaddrs);
-  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddrs, pte);
-  return pte;
+  uint pa = PTE_ADDR(pte) | PTE_FLAGS(vaddrs);
+  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddrs, pa);
+  return pa;
 }

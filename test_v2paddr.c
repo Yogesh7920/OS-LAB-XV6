@@ -5,10 +5,10 @@
 int
 main(int argc, char *argv[])
 {
-  v2paddr(0x2FCC);
-  v2paddr(0x1);
-  v2paddr(0x80000001);
-  v2paddr(0x0242423);
-  v2paddr(0x0657322);
+  int a[5] = {0};
+  v2paddr((uint)&a[0]);
+  v2paddr((uint)&a[1]);
+  v2paddr((uint)&a[2]);
+  v2paddr((uint)&a[3]);
   exit();
 }
