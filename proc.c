@@ -559,7 +559,7 @@ uint
 v2paddr(uint vaddrs)
 {
   if (vaddrs >= KERNBASE) {
-    cprintf("xv6: invalid virtual address - %x\n", vaddrs);
+    cprintf("xv6: invalid virtual address - 0x%x\n", vaddrs);
     return -1;
   }
   struct proc *curproc = myproc();
