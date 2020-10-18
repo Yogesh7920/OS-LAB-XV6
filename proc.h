@@ -33,7 +33,7 @@ struct context {
 };
 
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
-#define total_sys_calls 22
+#define total_sys_calls 23
 // Per-process state
 struct proc {
   uint sz;                     // Size of process memory (bytes)
