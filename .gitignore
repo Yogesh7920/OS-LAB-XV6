@@ -16,11 +16,7 @@ mkfs
 .gdbinit
 
 
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -32,4 +28,4 @@ mkfs
 .idea/misc.xml
 .idea/os.iml
 .idea/vcs.xml
-.idea
+.idea/
