@@ -1,3 +1,3 @@
 # OS Lab #
 
-_lab5 is under progress_
+_lab5 done_

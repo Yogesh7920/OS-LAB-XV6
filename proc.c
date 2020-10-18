@@ -534,23 +534,15 @@ procdump(void)
 }
 
 static pte_t *
-walkpgdir(pde_t *pgdir, const void *va, int alloc)
+getpte(pde_t *pgdir, uint va)
 {
   pde_t *pde;
   pte_t *pgtab;
-
   pde = &pgdir[PDX(va)];
   if(*pde & PTE_P){
     pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
   } else {
-    if(!alloc || (pgtab = (pte_t*)kalloc()) == 0)
       return 0;
-    // Make sure all those PTE_P bits are zero.
-    memset(pgtab, 0, PGSIZE);
-    // The permissions here are overly generous, but they can
-    // be further restricted by the permissions in the page table
-    // entries, if necessary.
-    *pde = V2P(pgtab) | PTE_P | PTE_W | PTE_U;
   }
   return &pgtab[PTX(va)];
 }
@@ -563,9 +555,17 @@ v2paddr(uint vaddrs)
     return -1;
   }
   struct proc *curproc = myproc();
-  pte_t pte = *walkpgdir(curproc->pgdir, &vaddrs, 0);
+  pte_t pte = *getpte(curproc->pgdir, vaddrs);
   if (pte == 0) {
     cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddrs);
+    return -1;
+  }
+  else if (!(pte & PTE_P)) {
+    cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddrs);
+    return -1;
+  }
+  else if (!(pte & PTE_U)) {
+    cprintf("xv6: invalid virtual address (not user accessible) - 0x%x\n", vaddrs);
     return -1;
   }
 
