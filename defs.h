@@ -120,6 +120,7 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+int             getcount(int);
 uint            v2paddr(uint);
 
 // swtch.S

@@ -88,6 +88,9 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  for (int i=0; i<=total_sys_calls; i++) {
+    p->sysCallCount[i] = 0;
+  }
 
   release(&ptable.lock);
 
@@ -533,6 +536,12 @@ procdump(void)
   }
 }
 
+int
+getcount(int num)
+{
+    struct proc *curproc = myproc();
+    return curproc->sysCallCount[num];
+}
 static pte_t *
 walkpgdir(pde_t *pgdir, const void *va, int alloc)
 {

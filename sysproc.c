@@ -90,6 +90,14 @@ sys_uptime(void)
   return xticks;
 }
 
+int
+sys_getcount(void)
+{
+    int num;
+    if(argint(0, &num) < 0)
+        return -1;
+    return getcount(num);
+}
 uint
 sys_v2paddr(void)
 {
