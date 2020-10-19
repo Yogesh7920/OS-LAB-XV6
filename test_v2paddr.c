@@ -6,15 +6,29 @@
 int
 main(int argc, char *argv[])
 {
-  uint a1, a2, a3;
-  uint *x1 = (uint *)0x2321;
-  uint *x2 = (uint *)0x3321;
-  uint *x3 = (uint *)0x4321;
-  v2paddr(&a1, x1);
-  printf(1, "%x\n", a1);
-  v2paddr(&a2, x2);
-  printf(1, "%x\n", a2);
-  v2paddr(&a3, x3);
-  printf(1, "%x\n", a3);
+
+  uint pa;
+  int arr[2] = {0};
+
+  if (!v2paddr(&pa, &arr[0]))
+    printf(1, "Physical Address = %x\n", pa);
+
+  if (!v2paddr(&pa, &arr[1]))
+    printf(1, "Physical Address = %x\n", pa);
+
+  uint *x1;
+
+  x1 = (uint *)0x2321;
+  if (!v2paddr(&pa, x1))
+    printf(1, "Physical Address = %x\n", pa);
+
+  x1 = (uint *)0x1321;
+  if (!v2paddr(&pa, x1))
+    printf(1, "Physical Address = %x\n", pa);
+
+  x1 = (uint *)0x321;
+  if (!v2paddr(&pa, x1))
+    printf(1, "Physical Address = %x\n", pa);
+
   exit();
 }

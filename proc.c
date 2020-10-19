@@ -551,6 +551,10 @@ int
 v2paddr(uint *pa, void *va)
 {
   uint vaddr = (uint)va;
+  if (vaddr >= KERNBASE) {
+    cprintf("xv6: invalid virtual address (in kernel) - 0x%x\n", vaddr);
+    return -1;
+  }
   struct proc *curproc = myproc();
   pte_t pte = *getpte(curproc->pgdir, vaddr);
   if (pte == 0) {
@@ -566,7 +570,7 @@ v2paddr(uint *pa, void *va)
     return -1;
   }
   uint paddr = PTE_ADDR(pte) | PTE_FLAGS(vaddr);
-  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddr, paddr);
+  cprintf("xv6: mapping 0x%x -> 0x%x\n", vaddr, paddr);
   *pa = paddr;
   return 0;
 }
