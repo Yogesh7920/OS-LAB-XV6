@@ -15,22 +15,18 @@ main(int argc, char *argv[])
 
   if (!v2paddr(&pa, &arr[1]))
     printf(1, "Physical Address = %x\n", pa);
-
+//
   uint *x1;
+//
+//  x1 = (uint *)0x2321;
+//  if (!v2paddr(&pa, x1))
+//    printf(1, "Physical Address = %x\n", pa);
+//
+//  x1 = (uint *)0x1321;
+//  if (!v2paddr(&pa, x1))
+//    printf(1, "Physical Address = %x\n", pa);
 
-  x1 = (uint *)0x2321;
-  if (!v2paddr(&pa, x1))
-    printf(1, "Physical Address = %x\n", pa);
-
-  x1 = (uint *)0x1321;
-  if (!v2paddr(&pa, x1))
-    printf(1, "Physical Address = %x\n", pa);
-
-  x1 = (uint *)0x2321;
-  if (!v2paddr(&pa, x1))
-    printf(1, "Physical Address = %x\n", pa);
-
-  x1 = (uint *)0x2322;
+  x1 = (uint *)0xfeed;
   if (!v2paddr(&pa, x1))
     printf(1, "Physical Address = %x\n", pa);
 
