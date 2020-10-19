@@ -90,11 +90,15 @@ sys_uptime(void)
   return xticks;
 }
 
-uint
+int
 sys_v2paddr(void)
 {
-  int addr;
-  if(argint(0, &addr) < 0)
+  uint *pa;
+  int *va;
+  if(argptr(0, (void *)&pa, sizeof(*pa)) < 0 || argptr(1, (void *)&va, sizeof(*va)) < 0) {
+    cprintf("xv6: Invalid Input\n");
     return -1;
-  return v2paddr(addr);
+  }
+
+  return v2paddr(pa, va);
 }

@@ -547,29 +547,27 @@ getpte(pde_t *pgdir, uint va)
   return &pgtab[PTX(va)];
 }
 
-uint
-v2paddr(uint vaddrs)
+int
+v2paddr(uint *pa, void *va)
 {
-  if (vaddrs >= KERNBASE) {
-    cprintf("xv6: invalid virtual address (in kernel) - 0x%x\n", vaddrs);
-    return -1;
-  }
+  uint vaddr = (uint)va;
   struct proc *curproc = myproc();
-  pte_t pte = *getpte(curproc->pgdir, vaddrs);
+  pte_t pte = *getpte(curproc->pgdir, vaddr);
   if (pte == 0) {
-    cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddrs);
+    cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddr);
     return -1;
   }
   else if (!(pte & PTE_P)) {
-    cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddrs);
+    cprintf("xv6: invalid virtual address (not present) - 0x%x\n", vaddr);
     return -1;
   }
   else if (!(pte & PTE_U)) {
-    cprintf("xv6: invalid virtual address (not user accessible) - 0x%x\n", vaddrs);
+    cprintf("xv6: invalid virtual address (not user accessible) - 0x%x\n", vaddr);
     return -1;
   }
-
-  uint pa = PTE_ADDR(pte) | PTE_FLAGS(vaddrs);
-  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddrs, pa);
-  return pa;
+  uint paddr = PTE_ADDR(pte) | PTE_FLAGS(vaddr);
+  cprintf("xv6: new mapping 0x%x -> 0x%x\n", vaddr, paddr);
+  *pa = paddr;
+  return 0;
 }
+
