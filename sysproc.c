@@ -91,18 +91,14 @@ sys_uptime(void)
 }
 
 int
-sys_getcount(void)
-{
-    int num;
-    if(argint(0, &num) < 0)
-        return -1;
-    return getcount(num);
-}
-uint
 sys_v2paddr(void)
 {
-  int addr;
-  if(argint(0, &addr) < 0)
+  uint *pa;
+  int *va;
+  if(argptr(0, (void *)&pa, sizeof(*pa)) < 0 || argptr(1, (void *)&va, sizeof(*va)) < 0) {
+    cprintf("xv6: invalid virtual address");
     return -1;
-  return v2paddr(addr);
+  }
+
+  return v2paddr(pa, va);
 }

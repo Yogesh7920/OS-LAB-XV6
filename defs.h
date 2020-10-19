@@ -121,7 +121,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int             getcount(int);
-uint            v2paddr(uint);
+int            v2paddr(uint*, void*);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
