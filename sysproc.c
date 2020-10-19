@@ -96,7 +96,6 @@ sys_v2paddr(void)
   uint *pa;
   int *va;
   if(argptr(0, (void *)&pa, sizeof(*pa)) < 0 || argptr(1, (void *)&va, sizeof(*va)) < 0) {
-    cprintf("xv6: invalid virtual address");
     return -1;
   }
 
