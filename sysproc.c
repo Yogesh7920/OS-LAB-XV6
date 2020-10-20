@@ -91,6 +91,15 @@ sys_uptime(void)
 }
 
 int
+sys_getcount(void)
+{
+  int num;
+  if(argint(0, &num) < 0)
+    return -1;
+  return getcount(num);
+}
+
+int
 sys_v2paddr(void)
 {
   uint *pa;
