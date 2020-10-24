@@ -90,18 +90,18 @@ allocproc(void)
   return 0;
 
 found:
-  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
+//  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
   p->state = EMBRYO;
-  cprintf("%s\n", procstate_str[p->state]);
+//  cprintf("%s\n", procstate_str[p->state]);
   p->pid = nextpid++;
 
   release(&ptable.lock);
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){
-    cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
+//    cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
     p->state = UNUSED;
-    cprintf("%s\n", procstate_str[p->state]);
+//    cprintf("%s\n", procstate_str[p->state]);
     return 0;
   }
   sp = p->kstack + KSTACKSIZE;
@@ -132,7 +132,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  
+  cprintf("xv6: %s(): pid %d - %s -> %s\n",__func__, p->pid, "UNUSED", procstate_str[p->state]);
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -196,6 +196,7 @@ fork(void)
   if((np = allocproc()) == 0){
     return -1;
   }
+  cprintf("xv6: %s(): pid %d - %s -> %s\n",__func__, np->pid, "UNUSED", procstate_str[np->state]);
 
   // Copy process state from proc.
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
