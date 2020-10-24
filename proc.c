@@ -480,9 +480,9 @@ wakeup1(void *chan)
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     if(p->state == SLEEPING && p->chan == chan) {
-      cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
+//      cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
       p->state = RUNNABLE;
-      cprintf("%s\n", procstate_str[p->state]);
+//      cprintf("%s\n", procstate_str[p->state]);
     }
 }
 
