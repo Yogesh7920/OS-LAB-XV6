@@ -12,6 +12,10 @@ struct {
   struct proc proc[NPROC];
 } ptable;
 
+static char procstate_str[6][10] =  {
+        "UNUSED", "EMBRYO", "SLEEPING", "RUNNABLE", "RUNNING", "ZOMBIE"
+};
+
 static struct proc *initproc;
 
 int nextpid = 1;
@@ -86,14 +90,18 @@ allocproc(void)
   return 0;
 
 found:
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
   p->state = EMBRYO;
+  cprintf("%s\n", procstate_str[p->state]);
   p->pid = nextpid++;
 
   release(&ptable.lock);
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){
+    cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
     p->state = UNUSED;
+    cprintf("%s\n", procstate_str[p->state]);
     return 0;
   }
   sp = p->kstack + KSTACKSIZE;
@@ -147,9 +155,9 @@ userinit(void)
   // writes to be visible, and the lock is also needed
   // because the assignment might not be atomic.
   acquire(&ptable.lock);
-
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
   p->state = RUNNABLE;
-
+  cprintf("%s\n", procstate_str[p->state]);
   release(&ptable.lock);
 }
 
@@ -193,7 +201,9 @@ fork(void)
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
     kfree(np->kstack);
     np->kstack = 0;
+    cprintf("xv6: %s(): pid %d - %s -> ",__func__, np->pid, procstate_str[np->state]);
     np->state = UNUSED;
+    cprintf("%s\n", procstate_str[np->state]);
     return -1;
   }
   np->sz = curproc->sz;
@@ -213,9 +223,9 @@ fork(void)
   pid = np->pid;
 
   acquire(&ptable.lock);
-
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, np->pid, procstate_str[np->state]);
   np->state = RUNNABLE;
-
+  cprintf("%s\n", procstate_str[np->state]);
   release(&ptable.lock);
 
   return pid;
@@ -262,7 +272,9 @@ exit(void)
   }
 
   // Jump into the scheduler, never to return.
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, curproc->pid, procstate_str[curproc->state]);
   curproc->state = ZOMBIE;
+  cprintf("%s\n", procstate_str[curproc->state]);
   sched();
   panic("zombie exit");
 }
@@ -294,7 +306,9 @@ wait(void)
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
+        cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
         p->state = UNUSED;
+        cprintf("%s\n", procstate_str[p->state]);
         release(&ptable.lock);
         return pid;
       }
@@ -341,7 +355,9 @@ scheduler(void)
       // before jumping back to us.
       c->proc = p;
       switchuvm(p);
+      cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
       p->state = RUNNING;
+      cprintf("%s\n", procstate_str[p->state]);
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
@@ -386,7 +402,9 @@ void
 yield(void)
 {
   acquire(&ptable.lock);  //DOC: yieldlock
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, myproc()->pid, procstate_str[myproc()->state]);
   myproc()->state = RUNNABLE;
+  cprintf("%s\n", procstate_str[myproc()->state]);
   sched();
   release(&ptable.lock);
 }
@@ -437,8 +455,9 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
   p->state = SLEEPING;
-
+  cprintf("%s\n", procstate_str[p->state]);
   sched();
 
   // Tidy up.
@@ -460,8 +479,11 @@ wakeup1(void *chan)
   struct proc *p;
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == SLEEPING && p->chan == chan)
+    if(p->state == SLEEPING && p->chan == chan) {
+      cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
       p->state = RUNNABLE;
+      cprintf("%s\n", procstate_str[p->state]);
+    }
 }
 
 // Wake up all processes sleeping on chan.
@@ -486,8 +508,11 @@ kill(int pid)
     if(p->pid == pid){
       p->killed = 1;
       // Wake process from sleep if necessary.
-      if(p->state == SLEEPING)
+      if(p->state == SLEEPING) {
+        cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
         p->state = RUNNABLE;
+        cprintf("%s\n", procstate_str[p->state]);
+      }
       release(&ptable.lock);
       return 0;
     }
