@@ -267,8 +267,10 @@ exit(void)
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->parent == curproc){
       p->parent = initproc;
-      if(p->state == ZOMBIE)
+      if(p->state == ZOMBIE) {
+        cprintf("xv6: %s(): pid %d - %s -> %s (reaped by pid %d)\n",__func__, p->pid, procstate_str[p->state], "UNUSED", initproc->pid);
         wakeup1(initproc);
+      }
     }
   }
 
