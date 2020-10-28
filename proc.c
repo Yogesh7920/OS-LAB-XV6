@@ -309,7 +309,7 @@ wait(void)
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
-        cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
+        cprintf("xv6: %s(): pid %d - %s -> ",__func__, pid, procstate_str[p->state]);
         p->state = UNUSED;
         cprintf("%s\n", procstate_str[p->state]);
         release(&ptable.lock);
