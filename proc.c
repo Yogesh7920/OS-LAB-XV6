@@ -261,6 +261,9 @@ exit(void)
   acquire(&ptable.lock);
 
   // Parent might be sleeping in wait().
+  if (curproc->parent->state == SLEEPING) {
+    cprintf("xv6: %s(): pid %d - %s -> %s\n","wakeup", curproc->parent->pid, procstate_str[curproc->parent->state], "RUNNABLE");
+  }
   wakeup1(curproc->parent);
 
   // Pass abandoned children to init.
@@ -268,6 +271,7 @@ exit(void)
     if(p->parent == curproc){
       p->parent = initproc;
       if(p->state == ZOMBIE) {
+        cprintf("xv6: %s(): pid %d - %s -> %s\n","wakeup", initproc->pid, procstate_str[initproc->state], "RUNNABLE");
         cprintf("xv6: %s(): pid %d - %s -> %s (reaped by pid %d)\n",__func__, p->pid, procstate_str[p->state], "UNUSED", initproc->pid);
         wakeup1(initproc);
       }
