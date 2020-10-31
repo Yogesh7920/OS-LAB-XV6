@@ -311,7 +311,7 @@ wait(void)
         p->killed = 0;
         cprintf("xv6: %s(): pid %d - %s -> ",__func__, pid, procstate_str[p->state]);
         p->state = UNUSED;
-        cprintf("%s\n", procstate_str[p->state]);
+        cprintf("%s (reaped by pid %d)\n", procstate_str[p->state], curproc->pid);
         release(&ptable.lock);
         return pid;
       }
