@@ -1,6 +1,7 @@
 # OS Lab #
 
-The old folder contains lab1, lab2 and lab3.
-The xv6 code contains the other lab assignments.
+LAB 6 done
 
-_lab4 is under progress_
+### Note: If error occurs in make then do _chmod 777 -R_ .
+
+### Note: If error occurs in make qemu-nox then do _make clean && make && make qemu-nox_
