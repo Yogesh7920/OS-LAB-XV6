@@ -90,18 +90,18 @@ allocproc(void)
   return 0;
 
 found:
-//  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
-  p->state = EMBRYO;
-//  cprintf("%s\n", procstate_str[p->state]);
-  p->pid = nextpid++;
 
+  p->state = EMBRYO;
+  p->pid = nextpid++;
+  cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, "UNUSED");
+  cprintf("%s\n", procstate_str[p->state]);
   release(&ptable.lock);
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){
-//    cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
+    cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
     p->state = UNUSED;
-//    cprintf("%s\n", procstate_str[p->state]);
+    cprintf("%s (failed kernel stack allocation)\n", procstate_str[p->state]);
     return 0;
   }
   sp = p->kstack + KSTACKSIZE;
@@ -132,7 +132,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  cprintf("xv6: %s(): pid %d - %s -> %s\n","allocproc", p->pid, "UNUSED", procstate_str[p->state]);
+//  cprintf("xv6: %s(): pid %d - %s -> %s\n","allocproc", p->pid, "UNUSED", procstate_str[p->state]);
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -157,7 +157,7 @@ userinit(void)
   acquire(&ptable.lock);
   cprintf("xv6: %s(): pid %d - %s -> ",__func__, p->pid, procstate_str[p->state]);
   p->state = RUNNABLE;
-  cprintf("%s\n", procstate_str[p->state]);
+  cprintf("%s (first process)\n", procstate_str[p->state]);
   release(&ptable.lock);
 }
 
@@ -196,7 +196,7 @@ fork(void)
   if((np = allocproc()) == 0){
     return -1;
   }
-  cprintf("xv6: %s(): pid %d - %s -> %s (child process allocated)\n",__func__, np->pid, "UNUSED", procstate_str[np->state]);
+//  cprintf("xv6: %s(): pid %d - %s -> %s (child process allocated)\n",__func__, np->pid, "UNUSED", procstate_str[np->state]);
 
   // Copy process state from proc.
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
@@ -226,7 +226,7 @@ fork(void)
   acquire(&ptable.lock);
   cprintf("xv6: %s(): pid %d - %s -> ",__func__, np->pid, procstate_str[np->state]);
   np->state = RUNNABLE;
-  cprintf("%s (child process runnable)\n", procstate_str[np->state]);
+  cprintf("%s (child of %d - Runnable)\n", procstate_str[np->state], curproc->pid);
   release(&ptable.lock);
 
   return pid;
@@ -411,7 +411,7 @@ yield(void)
   acquire(&ptable.lock);  //DOC: yieldlock
   cprintf("xv6: %s(): pid %d - %s -> ",__func__, myproc()->pid, procstate_str[myproc()->state]);
   myproc()->state = RUNNABLE;
-  cprintf("%s\n", procstate_str[myproc()->state]);
+  cprintf("%s (timer interrupt)\n", procstate_str[myproc()->state]);
   sched();
   release(&ptable.lock);
 }
