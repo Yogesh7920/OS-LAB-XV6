@@ -132,7 +132,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  cprintf("xv6: %s(): pid %d - %s -> %s\n",__func__, p->pid, "UNUSED", procstate_str[p->state]);
+  cprintf("xv6: %s(): pid %d - %s -> %s\n","allocproc", p->pid, "UNUSED", procstate_str[p->state]);
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -196,7 +196,7 @@ fork(void)
   if((np = allocproc()) == 0){
     return -1;
   }
-  cprintf("xv6: %s(): pid %d - %s -> %s\n",__func__, np->pid, "UNUSED", procstate_str[np->state]);
+  cprintf("xv6: %s(): pid %d - %s -> %s (child process allocated)\n",__func__, np->pid, "UNUSED", procstate_str[np->state]);
 
   // Copy process state from proc.
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
@@ -226,7 +226,7 @@ fork(void)
   acquire(&ptable.lock);
   cprintf("xv6: %s(): pid %d - %s -> ",__func__, np->pid, procstate_str[np->state]);
   np->state = RUNNABLE;
-  cprintf("%s\n", procstate_str[np->state]);
+  cprintf("%s (child process runnable)\n", procstate_str[np->state]);
   release(&ptable.lock);
 
   return pid;
@@ -271,7 +271,7 @@ exit(void)
     if(p->parent == curproc){
       p->parent = initproc;
       if(p->state == ZOMBIE) {
-        cprintf("xv6: %s(): pid %d - %s -> %s\n","wakeup", initproc->pid, procstate_str[initproc->state], "RUNNABLE");
+        cprintf("xv6: %s(): pid %d - %s -> %s (init wakeup to reap)\n","wakeup", initproc->pid, procstate_str[initproc->state], "RUNNABLE");
         cprintf("xv6: %s(): pid %d - %s -> %s (reaped by pid %d)\n",__func__, p->pid, procstate_str[p->state], "UNUSED", initproc->pid);
         wakeup1(initproc);
       }
